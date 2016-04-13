@@ -3,12 +3,14 @@ var bzwords = require('./routes/bzwords.js');
 var app = express();
 var bodyParser = require('body-parser');
 var buzzObj = require('./buzzObj')();
+var validation = require('./routes/validations.js');
+
 
 app.use(express.static('public'));
 app.use('/buzzwords', bzwords);
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/reset', function(req, res) {
+app.post('/reset', validation({ "reset": 'boolean' }), function(req, res) {
 
     buzzObj.score = 0;
 
@@ -17,6 +19,8 @@ app.post('/reset', function(req, res) {
     res.json({success : true});
 
   });
+
+
 
 
 
